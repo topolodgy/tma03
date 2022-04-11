@@ -1,0 +1,95 @@
+<html>
+  <head>
+    <!--
+	/***********
+	 * OU TM352 Block 3, TMA03: index.html
+	 *
+	 * To function correctly this file must be placed in a Cordova project and the appopriate plugins installed.
+	 * You need to complete the code which is commented with TODO.
+	 *
+	 * Released by Chris Thomson / Stephen Rice: Dec 2020
+	 * Modified and submitted by (your name here)
+	 ************/
+ --->
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <script src="js/jquery-3.5.1.min.js"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js" charset="utf-8"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js" charset="utf-8"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-ui.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js" type="text/javascript" charset="utf-8"></script>
+    <!-- <script type="text/javascript" src="cordova.js"></script> -->
+    <script type="text/javascript" src="js/helpers.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <title>Taxi Sharing</title>
+  </head>
+  <body>
+
+    <h1>Taxi Sharing</h1>
+    <h4>User registration:</h6>
+      <form id="register">
+        <table>
+          <tr>
+            <td align="left">Name:</td>
+            <td align="right"><input type="text" id="name" name="name" required /></td>
+          </tr>
+          <tr>
+            <td align="left">OUCU:</td>
+            <td align="right"><input type="text" id="oucu" name="oucu" required /></td>
+          </tr>
+        </table>
+      </form>
+      <button type="button" onclick="this.controller.registerUser()">Register</button>
+      <h4>Taxi share details:</h6>
+      <form id="share">
+        <table>
+          <tr>
+            <td align="left">Offering/Requesting:</td>
+            <td>
+              <select name="status" id ="status">
+                <option value="requesting">Requesting</option>
+                <option value="offering">Offering</option>
+              </select> 
+            </td>
+          </tr>
+          <tr>
+            <td align="left">Date/Time:</td>
+            <td><input type="datetime-local" id="taxi-time" name="taxi-time" required /></td>
+          </tr>
+          <tr>
+            <td align="left">Pickup address:</td>
+            <td>
+              <select name="src" id ="src">
+                <option value="mkc">Milton Keynes Central Station</option>
+                <option value="ou">Open University campus, Milton Keynes</option>
+              </select> 
+            </td>
+          </tr>
+          <tr>
+            <td align="left">Wait period (mins) if offering:</td>
+            <td><input type="number" id="wait-time" name="wait-time" required /></td>
+          </tr>
+        </table>
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+    <div>
+      <!--- TODO: add buttons to allow the various functional requirements to be enacted -->
+      <h4>Taxi share options:</h6>
+      <button id="btn-get-taxi">Cancel share offers/requests</button>
+      <h4>Map options:</h6>
+      <button id="btn-display-map">Display map</button>
+      <button id="btn-update-map">Update map</button>
+    </div>
+    <!--- TODO: add a placeholder for the HERE Map -->
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-core.js" charset="utf-8"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-service.js" charset="utf-8"></script>
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-ui.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+    <script src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js" type="text/javascript" charset="utf-8"></script>
+
+  </body>
+</html>
