@@ -36,21 +36,25 @@ function onDeviceReady() {
 // JavaScript "class" containing the model, providing controller "methods" for the HTML view
 function TaxiShare() {
     console.log("Creating controller/model");
+
     // PRIVATE VARIABLES AND FUNCTIONS - available only to code inside the controller/model
     // Note these are declared as function functionName() { ... }
+
     var BASE_GET_URL = "http://137.108.92.9/openstack/taxi/";
 	// NOTE HTTPS: at the time of writting we are investigating the creating a https service
-	//             this will increase compatibility with Android. If we get it working we 
-    //             will ask you to modify the line above.	
+	//             this will increase compatibility with Android. If we get it working we
+    //             will ask you to modify the line above.
     var BASE_URL = BASE_GET_URL;
 	// NOTE CORS: if you get a CORS error we may recommend you insert code at this point.
+
     // HERE Maps code, based on:
     // https://developer.here.com/documentation/maps/3.1.19.2/dev_guide/topics/map-controls-ui.html
     // https://developer.here.com/documentation/maps/3.1.19.2/dev_guide/topics/map-events.html
+
     // Initialize the platform object:
     var platform = new H.service.Platform({
         // TODO: Change to your own API key or map will NOT work!
-        apikey: "iHGshl2g4UfVq-nMtxCS_aOFV8ne8HRgnkwXQtkEqIY",
+        apikey: "YOUR_API_KEY_HERE",
     });
     // Obtain the default map types from the platform object:
     var defaultLayers = platform.createDefaultLayers();
@@ -64,7 +68,6 @@ function TaxiShare() {
         }
     );
 
-
     // Create the default UI:
     var ui = H.ui.UI.createDefault(map, defaultLayers);
     var mapSettings = ui.getControl("mapsettings");
@@ -77,6 +80,7 @@ function TaxiShare() {
     var mapEvents = new H.mapevents.MapEvents(map);
     // Instantiate the default behavior, providing the mapEvents object:
     new H.mapevents.Behavior(mapEvents);
+
     var markers = []; // array of markers that have been added to the map
 
     // TODO Lookup an address and add a marker to the map at the position of this address
@@ -86,9 +90,11 @@ function TaxiShare() {
             //       We have provided a helper function to prevent this however if you open the app
             //       on several browser windows at once you may still run into problems.
             //       Consider hardcoding locations for testing.
+
             // Hint: To ensure a marker will be cleared by clearMarkersFromMap, use:
             //       markers.push(marker);
             //       to add it to the markers array
+
             var onSuccess = function (data) {
                 // TODO 2(a) FR2.2
                 // You need to implement this function
@@ -96,7 +102,9 @@ function TaxiShare() {
 
                 // Hint: If you can't see the markers on the map if using the browser platform,
                 //       try refreshing the page.
+
             };
+
             // Hint: We have provided the helper function nominatim.get which uses
             //       the OpenStreetMap REST API to turn an address into co-ordinates.
             //       It does this in such a way that requests are cached and sent to
@@ -119,6 +127,7 @@ function TaxiShare() {
     // Obtain the device location and centre the map
     function centreMap() {
         // This is implemented for you and no further work is needed on it
+
         function onSuccess(position) {
             console.log("Obtained position", position);
             var point = {
@@ -127,11 +136,14 @@ function TaxiShare() {
             };
             map.setCenter(point);
         }
+
         function onError(error) {
             console.error("Error calling getCurrentPosition", error);
+
             // Inform the user that an error occurred
             alert("Error obtaining location, please try again.");
         }
+
         // Note: This can take some time to callback or may never callback,
         //       if permissions are not set correctly on the phone/emulator/browser
         navigator.geolocation.getCurrentPosition(onSuccess, onError, {
@@ -143,9 +155,11 @@ function TaxiShare() {
     function updateMap() {
         // TODO adjust the following to get the required data from your HTML view
         var oucu = getInputValue("oucu", "user1");
+
         // TODO 2(a) FR2.1
         // You need to implement this function
         // See the TMA for an explanation of the functional requirements
+
         // Hint: You will need to call addMarkerToMap and clearMarkersFromMap.
         // Hint: If you cannot complete FR2.1, call addMarkerToMap with a fixed value
         //       to allow yourself to move on to FR2.2.
@@ -156,10 +170,12 @@ function TaxiShare() {
     function register(oucu) {
         // 2(a) FR3
         // This is implemented for you and no further work is needed on it
+
         // Note we have pre-registered your OUCU so using this is only required
         // should you want to add an additional (fictional) OUCU for testing.
+
         function onSuccess(obj) {
-            
+
             console.log("register: received obj", obj);
 
             // Inform the user what happened
@@ -171,6 +187,7 @@ function TaxiShare() {
                 alert("Invalid OUCU: " + oucu);
             }
         }
+
         // Post the OUCU to register with the Taxi Sharing API
         var url = BASE_URL + "users";
         console.log("register: sending POST to " + url);
@@ -182,7 +199,6 @@ function TaxiShare() {
         // TODO 2(a) FR1.1
         // You need to implement this function
         // See the TMA for an explanation of the functional requirements
-
     }
 
     // TODO Request an offered taxi for the given OUCU
@@ -196,16 +212,23 @@ function TaxiShare() {
     function cancel(oucu) {
         // 2(a) FR1.3
         // This is implemented for you and no further work is needed on it
+
         function onDeleteSuccess(obj) {
+
             console.log("cancel/delete: received obj", obj);
         }
-        function onListSuccess(obj) {    
+
+        function onListSuccess(obj) {
+
             console.log("cancel/list: received obj", obj);
+
             if (obj.status == "success") {
                 // Orders are in an array named "data" inside the "obj" object
                 var orders = obj.data;
+
                 // Inform the user what is happening
                 alert("Deleting " + orders.length + " orders");
+
                 // Loop through each one and delete it
                 orders.forEach(function (order) {
                     // Delete the order with this ID for the given OUCU
@@ -223,6 +246,7 @@ function TaxiShare() {
                 alert(obj.status + " " + obj.data[0].reason);
             }
         }
+
         // Get all the orders (offers and requests) for the given OUCU
         var listUrl = BASE_GET_URL + "orders?oucu=" + oucu;
         console.log("cancel/list: Sending GET to " + listUrl);
@@ -239,6 +263,7 @@ function TaxiShare() {
     this.updateMap = function () {
         // 2(a) FR3
         // This is implemented for you and no further work is needed on it
+
         // Update map now
         updateMap();
     };
@@ -247,16 +272,17 @@ function TaxiShare() {
     this.registerUser = function () {
         // 2(a) FR3
         // TODO adjust the following to get the OUCU from your HTML view
-        var oucu = getInputValue("oucu", "testuser");
+        //var oucu = getInputValue("oucu", "user1");
+        var oucu = getElementById("oucu").value;
+
         // Call the model using values from the view
         register(oucu);
-        console.log("registerUser: registered user " + oucu);
     };
-
 
     // Controller function for user to offer to share a taxi they have booked
     this.offerTaxi = function () {
         var defaultStartTime = convertToOrderTime(new Date());
+
         // TODO adjust the following to get the required data from your HTML view
         var oucu = getInputValue("oucu", "user1");
         var address = getInputValue("addr", "Milton Keynes Central Station");
@@ -288,6 +314,7 @@ function TaxiShare() {
         endDate.setHours(endDate.getHours() + parseInt(hours));
         // ...convert back to an end time string
         var endTime = convertToOrderTime(endDate);
+
         // Call the model using values from the view
         offer(oucu, address, startTime, endTime);
     };
@@ -298,6 +325,7 @@ function TaxiShare() {
         var oucu = getInputValue("oucu", "user1");
         var address = getInputValue("addr", "Open University, Milton Keynes");
         var startTime = getInputValue("time", convertToOrderTime(new Date()));
+
         // Call the model using values from the view
         request(oucu, address, startTime);
     };
@@ -306,11 +334,8 @@ function TaxiShare() {
     this.cancel = function () {
         // TODO adjust the following to get the required data from your HTML view
         var oucu = getInputValue("oucu", "user1");
+
         // Call the model using values from the view
         cancel(oucu);
     };
-
-    function newFunction() {
-        return "user1";
-    }
 }
